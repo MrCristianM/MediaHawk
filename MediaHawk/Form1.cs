@@ -147,41 +147,7 @@ namespace MediaHawk
             }
         }
 
-        private void ProcessBtn_Click(object sender, EventArgs e)
-        {
-            if (fileList.Items.Count == 0)
-            {
-                MessageBox.Show("No files to process!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            //Get file names from filelist in the order they were added
-            Queue<string> filesQueue = new Queue<string>();
-            foreach (var item in fileList.Items)
-            {
-                filesQueue.Enqueue(item.ToString());
-            }
-            //Setting up the Chain of Responsibility
-            FileProcessorHandler cleaning = new CleaningHandler();
-            FileProcessorHandler tokenizer = new TokenizerHandler();
-            FileProcessorHandler analyser = new AnalyzerHandler();
-            FileProcessorHandler predictor = new PredictorHandler();
-
-            cleaning.SetNext(tokenizer);
-            tokenizer.SetNext(analyser);
-            analyser.SetNext(predictor);
-
-            //Start processing
-            while (filesQueue.Count > 0)
-            {
-                string currentFile = filesQueue.Dequeue();
-                Console.WriteLine($"Processing file: {currentFile}");
-
-                cleaning.Process(new List<string> { currentFile });
-            }
-            //if one file do something
-            MessageBox.Show("Processing completed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+        
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
@@ -219,6 +185,42 @@ namespace MediaHawk
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+        }
+
+        private void ProcessBtn_Click_1(object sender, EventArgs e)
+        {
+            if (fileList.Items.Count == 0)
+            {
+                MessageBox.Show("No files to process!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //Get file names from filelist in the order they were added
+            Queue<string> filesQueue = new Queue<string>();
+            foreach (var item in fileList.Items)
+            {
+                filesQueue.Enqueue(item.ToString());
+            }
+            //Setting up the Chain of Responsibility
+            FileProcessorHandler cleaning = new CleaningHandler();
+            FileProcessorHandler tokenizer = new TokenizerHandler();
+            FileProcessorHandler analyser = new AnalyzerHandler();
+            FileProcessorHandler predictor = new PredictorHandler();
+
+            cleaning.SetNext(tokenizer);
+            tokenizer.SetNext(analyser);
+            analyser.SetNext(predictor);
+
+            //Start processing
+            while (filesQueue.Count > 0)
+            {
+                string currentFile = filesQueue.Dequeue();
+                Console.WriteLine($"Processing file: {currentFile}");
+
+                cleaning.Process(new List<string> { currentFile });
+            }
+            //if one file do something
+            MessageBox.Show("Processing completed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

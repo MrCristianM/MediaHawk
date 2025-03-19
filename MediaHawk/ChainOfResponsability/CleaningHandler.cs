@@ -15,7 +15,7 @@ namespace MediaHawk.ChainOfResponsability
     public class CleaningHandler : FileProcessorHandler
     {
         private readonly string processedFolder = "ProcessedFiles";
-        //private readonly string uploadFolder = "UploadedFiles";
+        private readonly string uploadFolder = "UploadedFiles";
 
         //list of common words to remove
         private readonly HashSet<string> stopwords = new HashSet<string>
