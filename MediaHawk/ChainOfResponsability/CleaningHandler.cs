@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq.Expressions;
@@ -15,6 +15,7 @@ namespace MediaHawk.ChainOfResponsability
     public class CleaningHandler : FileProcessorHandler
     {
         private readonly string processedFolder = "ProcessedFiles";
+        //private readonly string uploadFolder = "UploadedFiles";
 
         //list of common words to remove
         private readonly HashSet<string> stopwords = new HashSet<string>
@@ -26,19 +27,20 @@ namespace MediaHawk.ChainOfResponsability
             "of", "in", "on", "at", "by", "with", "about", "against",
             "for", "to", "from", "up", "down", "out", "over", "under",
             "as", "into", "between", "through", "during", "before",
-            "after", "above", "below", "while", "so", "because"
+            "after", "above", "below", "while", "so", "because", "mhm"
         };
 
         public override void Process(List<string> files)
         {
             //Ensure the processed files folder exists
             Directory.CreateDirectory(processedFolder);
+            List<string> cleanedFiles = new List<string>();
 
             foreach (var file in files)
             {
-                MessageBox.Show(Path.GetFileName(file));
+                //MessageBox.Show(Path.GetFileName(file));
                 //Console.WriteLine("Cleaning Process starter");
-                MessageBox.Show($"Cleaning process started for: {file}");
+                //MessageBox.Show($"Cleaning process started for: {file}");
                 try
                 {
 
@@ -53,7 +55,12 @@ namespace MediaHawk.ChainOfResponsability
 
                     //Save the cleaned text in the processed forlder
                     File.WriteAllText(cleanedFileName, cleanedContent, Encoding.UTF8);
-                    MessageBox.Show($"Cleaning completed. Cleaned file saved as: {cleanedFileName}");
+                    //MessageBox.Show($"Cleaning completed. Cleaned file saved as: {cleanedFileName}");
+                    cleanedFiles.Add(cleanedFileName);
+
+                    File.Delete(file);
+
+
                 }
             
                 catch (Exception ex)

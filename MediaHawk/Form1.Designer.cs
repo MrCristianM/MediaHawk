@@ -34,7 +34,11 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.pageTab = new System.Windows.Forms.TabPage();
+            this.proceedBtn = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.clearBtn = new System.Windows.Forms.Button();
             this.fileList = new System.Windows.Forms.ListBox();
             this.uploadBtn = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -46,6 +50,7 @@
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabControl1.SuspendLayout();
+            this.pageTab.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -112,38 +117,88 @@
             // 
             // pageTab
             // 
-            this.pageTab.Location = new System.Drawing.Point(4, 29);
+            this.pageTab.Controls.Add(this.proceedBtn);
+            this.pageTab.Controls.Add(this.richTextBox1);
+            this.pageTab.Location = new System.Drawing.Point(4, 26);
             this.pageTab.Name = "pageTab";
             this.pageTab.Padding = new System.Windows.Forms.Padding(3);
-            this.pageTab.Size = new System.Drawing.Size(1098, 529);
+            this.pageTab.Size = new System.Drawing.Size(1098, 532);
             this.pageTab.TabIndex = 0;
             this.pageTab.Text = "Home";
             this.pageTab.UseVisualStyleBackColor = true;
             // 
+            // proceedBtn
+            // 
+            this.proceedBtn.Location = new System.Drawing.Point(464, 238);
+            this.proceedBtn.Name = "proceedBtn";
+            this.proceedBtn.Size = new System.Drawing.Size(170, 53);
+            this.proceedBtn.TabIndex = 1;
+            this.proceedBtn.Text = "Proceed";
+            this.proceedBtn.UseVisualStyleBackColor = true;
+            this.proceedBtn.Click += new System.EventHandler(this.proceedBtn_Click);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Font = new System.Drawing.Font("MingLiU-ExtB", 13.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.richTextBox1.Location = new System.Drawing.Point(153, 58);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(785, 129);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "MediaHawk SCIoT processes transcription files by:\n        ✔ Cleaning the text (re" +
+    "moves unnecessary words)\n        ✔ Analyzing word frequency\n        ✔ Generating" +
+    " word clouds for insights\n";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged_1);
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.richTextBox3);
+            this.tabPage2.Controls.Add(this.clearBtn);
             this.tabPage2.Controls.Add(this.fileList);
             this.tabPage2.Controls.Add(this.uploadBtn);
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Location = new System.Drawing.Point(4, 26);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1098, 529);
+            this.tabPage2.Size = new System.Drawing.Size(1098, 532);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "File Upload";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // richTextBox3
+            // 
+            this.richTextBox3.Font = new System.Drawing.Font("MingLiU-ExtB", 13.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox3.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.richTextBox3.Location = new System.Drawing.Point(164, 19);
+            this.richTextBox3.Multiline = false;
+            this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.ReadOnly = true;
+            this.richTextBox3.Size = new System.Drawing.Size(811, 39);
+            this.richTextBox3.TabIndex = 4;
+            this.richTextBox3.Text = "Please upload only .txt files. Multiple files can be selected.";
+            // 
+            // clearBtn
+            // 
+            this.clearBtn.Location = new System.Drawing.Point(45, 380);
+            this.clearBtn.Name = "clearBtn";
+            this.clearBtn.Size = new System.Drawing.Size(76, 31);
+            this.clearBtn.TabIndex = 2;
+            this.clearBtn.Text = "Clear";
+            this.clearBtn.UseVisualStyleBackColor = true;
+            this.clearBtn.Click += new System.EventHandler(this.clearBtn_Click_1);
+            // 
             // fileList
             // 
             this.fileList.FormattingEnabled = true;
-            this.fileList.ItemHeight = 20;
-            this.fileList.Location = new System.Drawing.Point(35, 3);
+            this.fileList.ItemHeight = 17;
+            this.fileList.Location = new System.Drawing.Point(35, 89);
             this.fileList.Name = "fileList";
-            this.fileList.Size = new System.Drawing.Size(344, 264);
+            this.fileList.Size = new System.Drawing.Size(1014, 259);
             this.fileList.TabIndex = 1;
             // 
             // uploadBtn
             // 
-            this.uploadBtn.Location = new System.Drawing.Point(94, 273);
+            this.uploadBtn.Location = new System.Drawing.Point(451, 380);
             this.uploadBtn.Name = "uploadBtn";
             this.uploadBtn.Size = new System.Drawing.Size(170, 53);
             this.uploadBtn.TabIndex = 0;
@@ -155,10 +210,10 @@
             // 
             this.tabPage3.Controls.Add(this.progressBar1);
             this.tabPage3.Controls.Add(this.ProcessBtn);
-            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Location = new System.Drawing.Point(4, 26);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1098, 529);
+            this.tabPage3.Size = new System.Drawing.Size(1098, 532);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Process";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -183,10 +238,10 @@
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.pictureBox1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 29);
+            this.tabPage4.Location = new System.Drawing.Point(4, 26);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1098, 529);
+            this.tabPage4.Size = new System.Drawing.Size(1098, 532);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Analysis";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -210,7 +265,7 @@
             // 
             // MediaHawk
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1100, 562);
             this.Controls.Add(this.tabControl1);
@@ -224,6 +279,7 @@
             this.Text = "Media Hawk";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabControl1.ResumeLayout(false);
+            this.pageTab.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
@@ -250,6 +306,10 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.OpenFileDialog fileDialogUpload;
         private System.IO.FileSystemWatcher fileSystemWatcher1;
+        private System.Windows.Forms.Button clearBtn;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button proceedBtn;
+        private System.Windows.Forms.RichTextBox richTextBox3;
     }
 }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,8 +21,54 @@ namespace MediaHawk
 
         private void closeBtn_Click(object sender, EventArgs e)
         {
-            //Close the Application
-            Application.Exit();
+            var confirm = MessageBox.Show("Do you want to exit? All the files will be wipped!",
+                "Confirm Exit",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+            if (confirm == DialogResult.Yes)
+            {
+                try
+                {
+                    DeleteFilesInFolder("UploadedFiles");
+                    DeleteFilesInFolder("ProcessedFiles");
+                    //Close the Application
+                    Application.Exit();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error while closing the application: {ex.Message}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                return;
+            }
+            
+            
+        }
+
+        private void DeleteFilesInFolder(string folderPath)
+        {
+            try
+            {
+                if (Directory.Exists(folderPath))
+                {
+                    foreach (string file in Directory.GetFiles(folderPath))
+                    {
+                        File.Delete(file); // Delete each file
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting files in {folderPath}: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void closeBtn_MouseEnter(object sender, EventArgs e)
@@ -64,10 +111,27 @@ namespace MediaHawk
             //Show the dialog and check if the user selected files
             if (fileDialogUpload.ShowDialog() == DialogResult.OK && fileDialogUpload.FileNames.Length > 0)
             {
+                string uploadedFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UploadedFiles");
+                Directory.CreateDirectory(uploadedFolder); // ensure folder exists
+
                 fileList.Items.Clear();
+
                 foreach (string filePath in fileDialogUpload.FileNames)
                 {
-                    fileList.Items.Add(System.IO.Path.GetFileName(filePath));
+                    //fileList.Items.Add(System.IO.Path.GetFileName(filePath));
+                    string destinationPath = Path.Combine(uploadedFolder, Path.GetFileName(filePath));
+
+                    try
+                    {
+                        File.Copy(filePath, destinationPath); //copy and overwrite if exists
+                        fileList.Items.Add(destinationPath); //Add to listbox
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error moving {filePath}: \n{ex.Message}","File Move Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+
+                    }
                 }
 
                 DialogResult result = MessageBox.Show("Do you want to process the files?", "Confimation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -117,6 +181,44 @@ namespace MediaHawk
             }
             //if one file do something
             MessageBox.Show("Processing completed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void richTextBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void proceedBtn_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabControl1.TabPages[1];
+        }
+
+        private void clearBtn_Click(object sender, EventArgs e)
+        {
+            fileList.Items.Clear(); // Remove all items from the ListBox
+        }
+
+        private void clearBtn_Click_1(object sender, EventArgs e)
+        {
+            fileList.Items.Clear();
+            try
+            {
+                DeleteFilesInFolder("UploadedFiles");
+                DeleteFilesInFolder("ProcessedFiles");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error while closing the application: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }
