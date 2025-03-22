@@ -14,8 +14,6 @@ namespace MediaHawk.ChainOfResponsability
 {
     public class CleaningHandler : FileProcessorHandler
     {
-        private readonly string processedFolder = "ProcessedFiles";
-        private readonly string uploadFolder = "UploadedFiles";
 
         //list of common words to remove
         private readonly HashSet<string> stopwords = new HashSet<string>
@@ -27,45 +25,37 @@ namespace MediaHawk.ChainOfResponsability
             "of", "in", "on", "at", "by", "with", "about", "against",
             "for", "to", "from", "up", "down", "out", "over", "under",
             "as", "into", "between", "through", "during", "before",
-            "after", "above", "below", "while", "so", "because", "mhm"
+            "after", "above", "below", "while", "so", "because", "mhm", "it's"
         };
 
         public override void Process(List<string> files)
         {
-            //Ensure the processed files folder exists
-            Directory.CreateDirectory(processedFolder);
-            List<string> cleanedFiles = new List<string>();
-
             foreach (var file in files)
             {
-                //MessageBox.Show(Path.GetFileName(file));
-                //Console.WriteLine("Cleaning Process starter");
-                //MessageBox.Show($"Cleaning process started for: {file}");
+
+                string sourcePath = Path.Combine(FilePaths.UploadFolder, Path.GetFileName(file));
+                string cleanedFilePath = Path.Combine(FilePaths.CleanedFolder, Path.GetFileName(file));
+
+                if (!File.Exists(sourcePath))
+                {
+                    MessageBox.Show($"File not found: {sourcePath}", "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    continue;
+                }
                 try
                 {
-
-                    //read the file content
-                    string content = File.ReadAllText(file, Encoding.UTF8);
-
-                    //Clean the text
+                    string content = File.ReadAllText(sourcePath);
                     string cleanedContent = CleanText(content);
-
-                    //Generate new file path
-                    string cleanedFileName = Path.Combine(processedFolder, Path.GetFileName(file));
-
-                    //Save the cleaned text in the processed forlder
-                    File.WriteAllText(cleanedFileName, cleanedContent, Encoding.UTF8);
-                    //MessageBox.Show($"Cleaning completed. Cleaned file saved as: {cleanedFileName}");
-                    cleanedFiles.Add(cleanedFileName);
-
-                    File.Delete(file);
-
-
+                    File.WriteAllText(cleanedFilePath, cleanedContent);
+                    //Delete the original uploaded file after cleaning
+                    File.Delete(sourcePath);
                 }
-            
                 catch (Exception ex)
                 {
-                MessageBox.Show($"Error cleaning {file}: {ex.Message}");
+                    MessageBox.Show($"Error cleaning file: {Path.GetFileName(file)}", "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error); 
                 }
             }
             base.Process(files); //Call the next handler
@@ -74,7 +64,7 @@ namespace MediaHawk.ChainOfResponsability
         {
             text = text.ToLower();
             text = Regex.Replace(text, @"\b\d+\b", ""); //remove numbers
-            text = Regex.Replace(text, @"[^\w\s']", ""); //remove puntuation
+            text = Regex.Replace(text, @"(?<!\w)['’](?!\w)|(?<!\w)-|-(?!\w)|[^\w\s'-]", ""); //remove puntuation
             text = Regex.Replace(text, @"\s+", " ").Trim(); //normalise spaces
 
             //remove stopwords.

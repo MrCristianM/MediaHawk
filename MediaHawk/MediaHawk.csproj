@@ -51,6 +51,7 @@
     <Compile Include="ChainOfResponsability\FileProcessorHandler.cs" />
     <Compile Include="ChainOfResponsability\PredictorHandler.cs" />
     <Compile Include="ChainOfResponsability\TokenizerHandler.cs" />
+    <Compile Include="ChainOfResponsability\FilePaths.cs" />
     <Compile Include="Controllers\QueueManager.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

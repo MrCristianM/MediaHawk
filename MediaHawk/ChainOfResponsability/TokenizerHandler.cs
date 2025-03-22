@@ -22,17 +22,29 @@ namespace MediaHawk.ChainOfResponsability
         {
             foreach (var file in files)
             {
+                string cleanedFilePath = Path.Combine(FilePaths.CleanedFolder, Path.GetFileName(file));
+                string tokenizedFilePath = Path.Combine(FilePaths.TokenizedFolder, Path.GetFileNameWithoutExtension(file)+ ".cvs");
+
                 try
                 {
-                    string text = File.ReadAllText(file);
-                    var tokens = TokenizeText(text);
+                    if (!File.Exists(cleanedFilePath))
+                    {
+                        MessageBox.Show($"File not found: {cleanedFilePath}",
+                            "Processing Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        continue;
 
-                    string tokenizedFilePath = Path.Combine(tokenizedFolder, Path.GetFileName(file));
+                    }
+
+                    string text = File.ReadAllText(cleanedFilePath);
+                    var tokens = TokenizeText(text);
                     SaveTokenizedData(tokenizedFilePath, tokens);
+
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error tokenising file {Path.GetFileName(file)}:\n{ex.Message}",
+                    MessageBox.Show($"Error tokenizing file {Path.GetFileName(file)}:\n{ex.Message}",
                         "Proccessing Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
@@ -45,10 +57,12 @@ namespace MediaHawk.ChainOfResponsability
         {
             Dictionary<string, int> wordCounts = new Dictionary<string, int>();
             //Regex to split words, removing puntuation and convert to lower case
-            string[] words = Regex.Split(text.ToLower(), @"\W+");
+            //string[] words = Regex.Split(text.ToLower(), @"\W+");
+            string[] words = Regex.Split(text.ToLower(), @"\s+|[^a-zA-Z0-9']+");
 
             foreach (string word in words)
             {
+                string cleanedWord = word.Trim('\'');
                 if (!string.IsNullOrWhiteSpace(word))
                 {
                     if (wordCounts.ContainsKey(word))
@@ -64,8 +78,15 @@ namespace MediaHawk.ChainOfResponsability
 
         private void SaveTokenizedData(string filePath, Dictionary<string, int> wordCounts)
         {
-            List<string> lines = wordCounts.Select(kv => $"{kv.Key}: {kv.Value}").ToList();
-            File.WriteAllLines(filePath, lines);
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                writer.WriteLine("Word,Count"); // CSV Header
+                foreach (var kv in wordCounts.OrderByDescending(kv => kv.Value))
+                {
+                    writer.WriteLine($"{kv.Key},{kv.Value}");
+                }
+            }
+
         }
     }
 }

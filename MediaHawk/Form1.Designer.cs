@@ -35,21 +35,20 @@
             this.fileDialogUpload = new System.Windows.Forms.OpenFileDialog();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.uploadBtn = new System.Windows.Forms.Button();
-            this.fileList = new System.Windows.Forms.ListBox();
-            this.clearBtn = new System.Windows.Forms.Button();
-            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.ProcessBtn = new System.Windows.Forms.Button();
+            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.clearBtn = new System.Windows.Forms.Button();
+            this.fileList = new System.Windows.Forms.ListBox();
+            this.uploadBtn = new System.Windows.Forms.Button();
             this.pageTab = new System.Windows.Forms.TabPage();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.proceedBtn = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.pageTab.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -111,7 +110,7 @@
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.pictureBox1);
+            this.tabPage4.Controls.Add(this.listBox1);
             this.tabPage4.Location = new System.Drawing.Point(4, 29);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -119,14 +118,6 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Analysis";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(26, 38);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(468, 399);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // tabPage2
             // 
@@ -143,34 +134,15 @@
             this.tabPage2.Text = "File Upload";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // uploadBtn
+            // ProcessBtn
             // 
-            this.uploadBtn.Location = new System.Drawing.Point(682, 369);
-            this.uploadBtn.Name = "uploadBtn";
-            this.uploadBtn.Size = new System.Drawing.Size(170, 53);
-            this.uploadBtn.TabIndex = 0;
-            this.uploadBtn.Text = "Upload";
-            this.uploadBtn.UseVisualStyleBackColor = true;
-            this.uploadBtn.Click += new System.EventHandler(this.uploadBtn_Click);
-            // 
-            // fileList
-            // 
-            this.fileList.FormattingEnabled = true;
-            this.fileList.ItemHeight = 20;
-            this.fileList.Location = new System.Drawing.Point(35, 89);
-            this.fileList.Name = "fileList";
-            this.fileList.Size = new System.Drawing.Size(1014, 244);
-            this.fileList.TabIndex = 1;
-            // 
-            // clearBtn
-            // 
-            this.clearBtn.Location = new System.Drawing.Point(45, 380);
-            this.clearBtn.Name = "clearBtn";
-            this.clearBtn.Size = new System.Drawing.Size(76, 31);
-            this.clearBtn.TabIndex = 2;
-            this.clearBtn.Text = "Clear";
-            this.clearBtn.UseVisualStyleBackColor = true;
-            this.clearBtn.Click += new System.EventHandler(this.clearBtn_Click_1);
+            this.ProcessBtn.Location = new System.Drawing.Point(611, 334);
+            this.ProcessBtn.Name = "ProcessBtn";
+            this.ProcessBtn.Size = new System.Drawing.Size(170, 53);
+            this.ProcessBtn.TabIndex = 5;
+            this.ProcessBtn.Text = "Process";
+            this.ProcessBtn.UseVisualStyleBackColor = true;
+            this.ProcessBtn.Click += new System.EventHandler(this.ProcessBtn_Click_1);
             // 
             // richTextBox3
             // 
@@ -184,15 +156,34 @@
             this.richTextBox3.TabIndex = 4;
             this.richTextBox3.Text = "Please upload only .txt files. Multiple files can be selected.";
             // 
-            // ProcessBtn
+            // clearBtn
             // 
-            this.ProcessBtn.Location = new System.Drawing.Point(890, 369);
-            this.ProcessBtn.Name = "ProcessBtn";
-            this.ProcessBtn.Size = new System.Drawing.Size(170, 53);
-            this.ProcessBtn.TabIndex = 5;
-            this.ProcessBtn.Text = "Process";
-            this.ProcessBtn.UseVisualStyleBackColor = true;
-            this.ProcessBtn.Click += new System.EventHandler(this.ProcessBtn_Click_1);
+            this.clearBtn.Location = new System.Drawing.Point(50, 405);
+            this.clearBtn.Name = "clearBtn";
+            this.clearBtn.Size = new System.Drawing.Size(76, 31);
+            this.clearBtn.TabIndex = 2;
+            this.clearBtn.Text = "Clear";
+            this.clearBtn.UseVisualStyleBackColor = true;
+            this.clearBtn.Click += new System.EventHandler(this.clearBtn_Click_1);
+            // 
+            // fileList
+            // 
+            this.fileList.FormattingEnabled = true;
+            this.fileList.ItemHeight = 20;
+            this.fileList.Location = new System.Drawing.Point(277, 64);
+            this.fileList.Name = "fileList";
+            this.fileList.Size = new System.Drawing.Size(575, 244);
+            this.fileList.TabIndex = 1;
+            // 
+            // uploadBtn
+            // 
+            this.uploadBtn.Location = new System.Drawing.Point(340, 334);
+            this.uploadBtn.Name = "uploadBtn";
+            this.uploadBtn.Size = new System.Drawing.Size(170, 53);
+            this.uploadBtn.TabIndex = 0;
+            this.uploadBtn.Text = "Upload";
+            this.uploadBtn.UseVisualStyleBackColor = true;
+            this.uploadBtn.Click += new System.EventHandler(this.uploadBtn_Click);
             // 
             // pageTab
             // 
@@ -205,6 +196,16 @@
             this.pageTab.TabIndex = 0;
             this.pageTab.Text = "Home";
             this.pageTab.UseVisualStyleBackColor = true;
+            // 
+            // proceedBtn
+            // 
+            this.proceedBtn.Location = new System.Drawing.Point(464, 238);
+            this.proceedBtn.Name = "proceedBtn";
+            this.proceedBtn.Size = new System.Drawing.Size(170, 53);
+            this.proceedBtn.TabIndex = 1;
+            this.proceedBtn.Text = "Proceed";
+            this.proceedBtn.UseVisualStyleBackColor = true;
+            this.proceedBtn.Click += new System.EventHandler(this.proceedBtn_Click);
             // 
             // richTextBox1
             // 
@@ -220,16 +221,6 @@
     " word clouds for insights\n";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged_1);
             // 
-            // proceedBtn
-            // 
-            this.proceedBtn.Location = new System.Drawing.Point(464, 238);
-            this.proceedBtn.Name = "proceedBtn";
-            this.proceedBtn.Size = new System.Drawing.Size(170, 53);
-            this.proceedBtn.TabIndex = 1;
-            this.proceedBtn.Text = "Proceed";
-            this.proceedBtn.UseVisualStyleBackColor = true;
-            this.proceedBtn.Click += new System.EventHandler(this.proceedBtn_Click);
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.pageTab);
@@ -240,6 +231,15 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1106, 562);
             this.tabControl1.TabIndex = 4;
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 20;
+            this.listBox1.Location = new System.Drawing.Point(9, 6);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(389, 264);
+            this.listBox1.TabIndex = 0;
             // 
             // MediaHawk
             // 
@@ -258,7 +258,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             this.tabPage4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.pageTab.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -284,7 +283,7 @@
         private System.Windows.Forms.ListBox fileList;
         private System.Windows.Forms.Button uploadBtn;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

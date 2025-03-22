@@ -21,6 +21,7 @@ namespace MediaHawk
 
         private void closeBtn_Click(object sender, EventArgs e)
         {
+            //Function which makes sure that all the files are deleted after the execution, by asking if the user agreed to exit.
             var confirm = MessageBox.Show("Do you want to exit? All the files will be wipped!",
                 "Confirm Exit",
                 MessageBoxButtons.YesNo,
@@ -29,10 +30,9 @@ namespace MediaHawk
             {
                 try
                 {
-                    DeleteFilesInFolder("UploadedFiles");
-                    DeleteFilesInFolder("ProcessedFiles");
-                    //Close the Application
-                    Application.Exit();
+                    DeleteAllFiles(FilePaths.UploadFolder);
+                    DeleteAllFiles(FilePaths.CleanedFolder);
+                    DeleteAllFiles(FilePaths.TokenizedFolder);
                 }
                 catch (Exception ex)
                 {
@@ -41,6 +41,7 @@ namespace MediaHawk
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
+                Application.Exit();
             }
             else
             {
@@ -50,24 +51,14 @@ namespace MediaHawk
             
         }
 
-        private void DeleteFilesInFolder(string folderPath)
+        private void DeleteAllFiles(string folderPath)
         {
-            try
+            if (Directory.Exists(folderPath))
             {
-                if (Directory.Exists(folderPath))
+                foreach (var file in Directory.GetFiles(folderPath))
                 {
-                    foreach (string file in Directory.GetFiles(folderPath))
-                    {
-                        File.Delete(file); // Delete each file
-                    }
+                    File.Delete(file);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error deleting files in {folderPath}: {ex.Message}",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
             }
         }
 
@@ -118,27 +109,22 @@ namespace MediaHawk
 
                 foreach (string filePath in fileDialogUpload.FileNames)
                 {
-                    //fileList.Items.Add(System.IO.Path.GetFileName(filePath));
-                    string destinationPath = Path.Combine(uploadedFolder, Path.GetFileName(filePath));
+                    string fileName = Path.GetFileName(filePath);
+                    string destinationPath = Path.Combine(uploadedFolder, fileName);
 
                     try
                     {
-                        File.Copy(filePath, destinationPath); //copy and overwrite if exists
-                        fileList.Items.Add(destinationPath); //Add to listbox
+                        File.Copy(filePath, destinationPath, true); //copy and overwrite if exists
+                        fileList.Items.Add(fileName); //Add to listbox
 
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error moving {filePath}: \n{ex.Message}","File Move Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                        MessageBox.Show($"Error moving {fileName}: \n{ex.Message}","File Move Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
 
                     }
                 }
 
-                DialogResult result = MessageBox.Show("Do you want to process the files?", "Confimation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    tabControl1.SelectedTab = tabControl1.TabPages[2];
-                }
             }
             else
             {
@@ -175,8 +161,9 @@ namespace MediaHawk
             fileList.Items.Clear();
             try
             {
-                DeleteFilesInFolder("UploadedFiles");
-                DeleteFilesInFolder("ProcessedFiles");
+                DeleteAllFiles(FilePaths.UploadFolder);
+                DeleteAllFiles(FilePaths.CleanedFolder);
+                DeleteAllFiles(FilePaths.TokenizedFolder);
             }
             catch (Exception ex)
             {
