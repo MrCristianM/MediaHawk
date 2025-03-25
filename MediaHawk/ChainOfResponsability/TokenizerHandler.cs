@@ -23,14 +23,14 @@ namespace MediaHawk.ChainOfResponsability
             foreach (var file in files)
             {
                 string cleanedFilePath = Path.Combine(FilePaths.CleanedFolder, Path.GetFileName(file));
-                string tokenizedFilePath = Path.Combine(FilePaths.TokenizedFolder, Path.GetFileNameWithoutExtension(file)+ ".cvs");
+                string tokenizedFilePath = Path.Combine(FilePaths.TokenizedFolder, Path.GetFileNameWithoutExtension(file)+ ".csv");
 
                 try
                 {
                     if (!File.Exists(cleanedFilePath))
                     {
                         MessageBox.Show($"File not found: {cleanedFilePath}",
-                            "Processing Error",
+                            "Processing 1 Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                         continue;
@@ -40,7 +40,7 @@ namespace MediaHawk.ChainOfResponsability
                     string text = File.ReadAllText(cleanedFilePath);
                     var tokens = TokenizeText(text);
                     SaveTokenizedData(tokenizedFilePath, tokens);
-
+                    // Add to analys
                 }
                 catch (Exception ex)
                 {

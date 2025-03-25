@@ -13,7 +13,7 @@ namespace MediaHawk
         public static readonly string UploadFolder = Path.Combine(BaseDirectory, "UploadedFiles");
         public static readonly string CleanedFolder = Path.Combine(BaseDirectory, "CleanedFiles");
         public static readonly string TokenizedFolder = Path.Combine(BaseDirectory, "TokenizedFiles");
-        public static readonly string AnalyzerFolder = Path.Combine(BaseDirectory, "AnalyzerFolder");
+        public static readonly string AnalyzerFolder = Path.Combine(BaseDirectory, "AnalyzerFiles");
 
 
         static FilePaths()

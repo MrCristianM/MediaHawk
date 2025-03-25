@@ -1,4 +1,5 @@
 ﻿using MediaHawk.ChainOfResponsability;
+using MediaHawk.ChainOfResponsibility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,7 @@ namespace MediaHawk
         {
             InitializeComponent();
         }
+        
 
         private void closeBtn_Click(object sender, EventArgs e)
         {
@@ -33,6 +35,7 @@ namespace MediaHawk
                     DeleteAllFiles(FilePaths.UploadFolder);
                     DeleteAllFiles(FilePaths.CleanedFolder);
                     DeleteAllFiles(FilePaths.TokenizedFolder);
+                    DeleteAllFiles(FilePaths.AnalyzerFolder);
                 }
                 catch (Exception ex)
                 {
@@ -192,22 +195,207 @@ namespace MediaHawk
             FileProcessorHandler cleaning = new CleaningHandler();
             FileProcessorHandler tokenizer = new TokenizerHandler();
             FileProcessorHandler analyser = new AnalyzerHandler();
-            FileProcessorHandler predictor = new PredictorHandler();
+            //FileProcessorHandler predictor = new PredictorHandler();
 
             cleaning.SetNext(tokenizer);
             tokenizer.SetNext(analyser);
-            analyser.SetNext(predictor);
+            tabControl1.SelectedTab = tabControl1.TabPages[2];
+            
+            //analyser.SetNext(predictor);
 
             //Start processing
             while (filesQueue.Count > 0)
             {
                 string currentFile = filesQueue.Dequeue();
-                Console.WriteLine($"Processing file: {currentFile}");
 
                 cleaning.Process(new List<string> { currentFile });
             }
-            //if one file do something
-            MessageBox.Show("Processing completed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+           
+            //MessageBox.Show("Processing completed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string analyzedFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AnalyzerFiles");
+
+            // Check if the directory exists
+            if (!Directory.Exists(analyzedFolder))
+                return;
+
+            // Get all CSV files in the analyzed folder
+            string[] analyzedFiles = Directory.GetFiles(analyzedFolder, "*.csv");
+
+            // Loop through each file in the analyzedFiles array
+            foreach (var file in analyzedFiles)
+            {
+                // Add the file name to the list box
+                //AnalysListBox.Items.Add(file);
+                AnalysListBox.Items.Add(Path.GetFileName(file));
+
+              
+            }
+            
+
+        }
+
+        private void AnalysListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        
+
+        private void richTextBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DownloadSelectedBtn_Click(object sender, EventArgs e)
+        {
+            //if (AnalysListBox.SelectedItems.Count == 0)
+            //{
+            //    MessageBox.Show("Please select at least one file to download.", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
+
+            //using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+            //{
+            //    if (folderDialog.ShowDialog() == DialogResult.OK)
+            //    {
+            //        string destinationFolder = folderDialog.SelectedPath;
+
+            //        foreach (var selectedItem in AnalysListBox.SelectedItems)
+            //        {
+            //            string fileName = selectedItem.ToString();
+            //            string sourceFilePath = Path.Combine(FilePaths.AnalyzerFolder, fileName);
+            //            string destinationFilePath = Path.Combine(destinationFolder, fileName);
+
+            //            try
+            //            {
+            //                if (File.Exists(sourceFilePath))
+            //                {
+            //                    File.Copy(sourceFilePath, destinationFilePath, true);
+            //                }
+            //                else
+            //                {
+            //                    MessageBox.Show($"File not found: {sourceFilePath}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //                }
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                MessageBox.Show($"Error copying {fileName}: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //            }
+            //        }
+
+            //        MessageBox.Show("Selected files downloaded successfully!", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    }
+            //}
+            if (AnalysListBox.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select at least one file to download.", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            foreach (var selectedItem in AnalysListBox.SelectedItems)
+            {
+                string fileName = selectedItem.ToString(); // Get selected file name
+                string sourceFilePath = Path.Combine(FilePaths.AnalyzerFolder, fileName); // Full path
+
+                if (!File.Exists(sourceFilePath))
+                {
+                    MessageBox.Show($"File not found: {sourceFilePath}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    continue;
+                }
+
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                {
+                    saveFileDialog.Title = "Save File As";
+                    saveFileDialog.FileName = fileName; // Set default name
+                    saveFileDialog.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*";
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        string destinationFilePath = saveFileDialog.FileName;
+
+                        try
+                        {
+                            File.Copy(sourceFilePath, destinationFilePath, true); // Copy with overwrite
+                            MessageBox.Show($"File saved: {destinationFilePath}", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error saving {fileName}: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            }
+
+        private void CleanAnalysBtn_Click(object sender, EventArgs e)
+        {
+            AnalysListBox.Items.Clear();
+            try
+            {
+                DeleteAllFiles(FilePaths.UploadFolder);
+                DeleteAllFiles(FilePaths.CleanedFolder);
+                DeleteAllFiles(FilePaths.TokenizedFolder);
+                DeleteAllFiles(FilePaths.AnalyzerFolder);
+                tabControl1.SelectedTab = tabControl1.TabPages[0];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error while restarting the processes: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void DownloadAllBtn_Click(object sender, EventArgs e)
+        {
+            if (AnalysListBox.Items.Count == 0)
+            {
+                MessageBox.Show("There are no files available for download.", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+            {
+                folderDialog.Description = "Select Folder to Save All Files";
+
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string destinationFolder = folderDialog.SelectedPath;
+                    int successCount = 0;
+                    int failCount = 0;
+
+                    foreach (var item in AnalysListBox.Items)
+                    {
+                        string fileName = item.ToString();
+                        string sourceFilePath = Path.Combine(FilePaths.AnalyzerFolder, fileName);
+                        string destinationFilePath = Path.Combine(destinationFolder, fileName);
+
+                        try
+                        {
+                            if (File.Exists(sourceFilePath))
+                            {
+                                File.Copy(sourceFilePath, destinationFilePath, true);
+                                successCount++;
+                            }
+                            else
+                            {
+                                failCount++;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error saving {fileName}: {ex.Message}", "Download Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+
+                    MessageBox.Show($"Download complete!\n\n✔ Success: {successCount}\n❌ Failed: {failCount}", "Download Summary", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

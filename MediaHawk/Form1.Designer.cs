@@ -35,6 +35,7 @@
             this.fileDialogUpload = new System.Windows.Forms.OpenFileDialog();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.AnalysListBox = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ProcessBtn = new System.Windows.Forms.Button();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
@@ -45,7 +46,13 @@
             this.proceedBtn = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.CleanAnalysBtn = new System.Windows.Forms.Button();
+            this.DownloadSelectedBtn = new System.Windows.Forms.Button();
+            this.DownloadAllBtn = new System.Windows.Forms.Button();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox5 = new System.Windows.Forms.RichTextBox();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabPage4.SuspendLayout();
@@ -110,7 +117,11 @@
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.listBox1);
+            this.tabPage4.Controls.Add(this.richTextBox2);
+            this.tabPage4.Controls.Add(this.DownloadAllBtn);
+            this.tabPage4.Controls.Add(this.DownloadSelectedBtn);
+            this.tabPage4.Controls.Add(this.CleanAnalysBtn);
+            this.tabPage4.Controls.Add(this.AnalysListBox);
             this.tabPage4.Location = new System.Drawing.Point(4, 29);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -119,8 +130,21 @@
             this.tabPage4.Text = "Analysis";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // AnalysListBox
+            // 
+            this.AnalysListBox.FormattingEnabled = true;
+            this.AnalysListBox.HorizontalScrollbar = true;
+            this.AnalysListBox.ItemHeight = 20;
+            this.AnalysListBox.Location = new System.Drawing.Point(9, 6);
+            this.AnalysListBox.Name = "AnalysListBox";
+            this.AnalysListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.AnalysListBox.Size = new System.Drawing.Size(399, 264);
+            this.AnalysListBox.TabIndex = 0;
+            this.AnalysListBox.SelectedIndexChanged += new System.EventHandler(this.AnalysListBox_SelectedIndexChanged);
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.richTextBox4);
             this.tabPage2.Controls.Add(this.ProcessBtn);
             this.tabPage2.Controls.Add(this.richTextBox3);
             this.tabPage2.Controls.Add(this.clearBtn);
@@ -146,6 +170,7 @@
             // 
             // richTextBox3
             // 
+            this.richTextBox3.Enabled = false;
             this.richTextBox3.Font = new System.Drawing.Font("MingLiU-ExtB", 13.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox3.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.richTextBox3.Location = new System.Drawing.Point(164, 19);
@@ -172,6 +197,7 @@
             this.fileList.ItemHeight = 20;
             this.fileList.Location = new System.Drawing.Point(277, 64);
             this.fileList.Name = "fileList";
+            this.fileList.ScrollAlwaysVisible = true;
             this.fileList.Size = new System.Drawing.Size(575, 244);
             this.fileList.TabIndex = 1;
             // 
@@ -187,6 +213,7 @@
             // 
             // pageTab
             // 
+            this.pageTab.Controls.Add(this.richTextBox5);
             this.pageTab.Controls.Add(this.proceedBtn);
             this.pageTab.Controls.Add(this.richTextBox1);
             this.pageTab.Location = new System.Drawing.Point(4, 29);
@@ -209,6 +236,7 @@
             // 
             // richTextBox1
             // 
+            this.richTextBox1.Enabled = false;
             this.richTextBox1.Font = new System.Drawing.Font("MingLiU-ExtB", 13.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.richTextBox1.Location = new System.Drawing.Point(153, 58);
@@ -232,14 +260,75 @@
             this.tabControl1.Size = new System.Drawing.Size(1106, 562);
             this.tabControl1.TabIndex = 4;
             // 
-            // listBox1
+            // CleanAnalysBtn
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 20;
-            this.listBox1.Location = new System.Drawing.Point(9, 6);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(389, 264);
-            this.listBox1.TabIndex = 0;
+            this.CleanAnalysBtn.Location = new System.Drawing.Point(9, 425);
+            this.CleanAnalysBtn.Name = "CleanAnalysBtn";
+            this.CleanAnalysBtn.Size = new System.Drawing.Size(93, 31);
+            this.CleanAnalysBtn.TabIndex = 3;
+            this.CleanAnalysBtn.Text = "Restart";
+            this.CleanAnalysBtn.UseVisualStyleBackColor = true;
+            this.CleanAnalysBtn.Click += new System.EventHandler(this.CleanAnalysBtn_Click);
+            // 
+            // DownloadSelectedBtn
+            // 
+            this.DownloadSelectedBtn.Location = new System.Drawing.Point(9, 287);
+            this.DownloadSelectedBtn.Name = "DownloadSelectedBtn";
+            this.DownloadSelectedBtn.Size = new System.Drawing.Size(170, 53);
+            this.DownloadSelectedBtn.TabIndex = 4;
+            this.DownloadSelectedBtn.Text = "Download Selected Files";
+            this.DownloadSelectedBtn.UseVisualStyleBackColor = true;
+            this.DownloadSelectedBtn.Click += new System.EventHandler(this.DownloadSelectedBtn_Click);
+            // 
+            // DownloadAllBtn
+            // 
+            this.DownloadAllBtn.Location = new System.Drawing.Point(238, 287);
+            this.DownloadAllBtn.Name = "DownloadAllBtn";
+            this.DownloadAllBtn.Size = new System.Drawing.Size(170, 53);
+            this.DownloadAllBtn.TabIndex = 5;
+            this.DownloadAllBtn.Text = "Download All";
+            this.DownloadAllBtn.UseVisualStyleBackColor = true;
+            this.DownloadAllBtn.Click += new System.EventHandler(this.DownloadAllBtn_Click);
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.Enabled = false;
+            this.richTextBox2.Font = new System.Drawing.Font("MingLiU-ExtB", 13.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox2.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.richTextBox2.Location = new System.Drawing.Point(335, 425);
+            this.richTextBox2.Multiline = false;
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.ReadOnly = true;
+            this.richTextBox2.Size = new System.Drawing.Size(459, 39);
+            this.richTextBox2.TabIndex = 6;
+            this.richTextBox2.Text = "Design by Cristian Munteanu 303704";
+            this.richTextBox2.TextChanged += new System.EventHandler(this.richTextBox2_TextChanged);
+            // 
+            // richTextBox4
+            // 
+            this.richTextBox4.Enabled = false;
+            this.richTextBox4.Font = new System.Drawing.Font("MingLiU-ExtB", 13.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox4.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.richTextBox4.Location = new System.Drawing.Point(322, 425);
+            this.richTextBox4.Multiline = false;
+            this.richTextBox4.Name = "richTextBox4";
+            this.richTextBox4.ReadOnly = true;
+            this.richTextBox4.Size = new System.Drawing.Size(459, 39);
+            this.richTextBox4.TabIndex = 7;
+            this.richTextBox4.Text = "Design by Cristian Munteanu 303704";
+            // 
+            // richTextBox5
+            // 
+            this.richTextBox5.Enabled = false;
+            this.richTextBox5.Font = new System.Drawing.Font("MingLiU-ExtB", 13.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox5.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.richTextBox5.Location = new System.Drawing.Point(322, 425);
+            this.richTextBox5.Multiline = false;
+            this.richTextBox5.Name = "richTextBox5";
+            this.richTextBox5.ReadOnly = true;
+            this.richTextBox5.Size = new System.Drawing.Size(451, 39);
+            this.richTextBox5.TabIndex = 7;
+            this.richTextBox5.Text = "Design by Cristian Munteanu 303704";
             // 
             // MediaHawk
             // 
@@ -283,7 +372,14 @@
         private System.Windows.Forms.ListBox fileList;
         private System.Windows.Forms.Button uploadBtn;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox AnalysListBox;
+        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.Button DownloadAllBtn;
+        private System.Windows.Forms.Button DownloadSelectedBtn;
+        private System.Windows.Forms.Button CleanAnalysBtn;
+        private System.Windows.Forms.RichTextBox richTextBox5;
+        private System.Windows.Forms.RichTextBox richTextBox4;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 
